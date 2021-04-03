@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "gonZlf1koefHvLV6vE2vd1N9gDWux8yK5s1EDftmwTefkAVB1g/rJvTK/TtWhYIMbU4Jc3r9lZHR8OoPb5HD/w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tanakatakuya\\source\\repos\\VideoShop\\VideoShop.Web.Buyer\\VideoShop.Web.Buyer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tanakatakuya\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\tanakatakuya\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\tanakatakuya\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "C:\\Users\\tanakatakuya\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "C:\\Users\\tanakatakuya\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "C:\\Users\\tanakatakuya\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+  ],
+  "logs": []
+}
