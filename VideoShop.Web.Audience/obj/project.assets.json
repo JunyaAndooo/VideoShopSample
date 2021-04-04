@@ -75,6 +75,29 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "VideoShop.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "VideoShop.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/VideoShop.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/VideoShop.Application.dll": {}
+        }
+      },
+      "VideoShop.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/VideoShop.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/VideoShop.Domain.dll": {}
+        }
       }
     }
   },
@@ -185,11 +208,22 @@
         "swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "VideoShop.Application/1.0.0": {
+      "type": "project",
+      "path": "../VideoShop.Application/VideoShop.Application.csproj",
+      "msbuildProject": "../VideoShop.Application/VideoShop.Application.csproj"
+    },
+    "VideoShop.Domain/1.0.0": {
+      "type": "project",
+      "path": "../VideoShop.Domain/VideoShop.Domain.csproj",
+      "msbuildProject": "../VideoShop.Domain/VideoShop.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
-      "Swashbuckle.AspNetCore >= 5.6.3"
+      "Swashbuckle.AspNetCore >= 5.6.3",
+      "VideoShop.Application >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -223,7 +257,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\base\\code\\VideoShop\\VideoShop.Application\\VideoShop.Application.csproj": {
+              "projectPath": "C:\\base\\code\\VideoShop\\VideoShop.Application\\VideoShop.Application.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
