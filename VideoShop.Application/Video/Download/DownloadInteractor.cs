@@ -22,8 +22,8 @@ namespace VideoShop.Application.Video.Download
 
         public DownloadOutputData Download(DownloadInputData inputData)
         {
-            VideoId videoId = new VideoId(inputData.VideoId);
-            AudienceId audienceId = new AudienceId(inputData.AudienceId);
+            VideoId videoId = new(inputData.VideoId);
+            AudienceId audienceId = new(inputData.AudienceId);
             if (this.licenseDomainService.HasLicense(audienceId, videoId))
             {
                 throw new ArgumentException("ライセンスが不正です");

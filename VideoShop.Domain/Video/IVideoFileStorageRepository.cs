@@ -1,6 +1,6 @@
 ﻿namespace VideoShop.Domain.Video
 {
-    public interface IFileStorageRepository
+    public interface IVideoFileStorageRepository
     {
         public string Save(string tmpFilePath);
     }

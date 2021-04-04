@@ -6,5 +6,6 @@ namespace VideoShop.Domain.License
     public interface ILicenseRepository
     {
         LicenseEntity Find(AudienceId audienceId, VideoId videoId);
+        void Insert(LicenseEntity entity);
     }
 }

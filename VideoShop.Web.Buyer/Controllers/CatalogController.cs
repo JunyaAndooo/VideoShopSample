@@ -2,7 +2,7 @@
 using System;
 using VideoShop.Application.Series.GetSeries;
 
-namespace VideoShop.Web.Audience.Controllers
+namespace VideoShop.Web.Buyer.Controllers
 {
     [ApiController]
     [Route("[controller]")]
