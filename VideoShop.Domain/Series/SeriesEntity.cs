@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using VideoShop.Domain.Video.Series.ValueObjects;
+using VideoShop.Domain.Series.ValueObjects;
 
 namespace VideoShop.Domain.Series
 {

@@ -1,4 +1,8 @@
-﻿namespace VideoShop.Domain.Video.Series.ValueObjects
+﻿namespace VideoShop.Domain.Series.ValueObjects
 {
-    public record SeriesName(string Value) { }
+    public record SeriesName
+    {
+        public string Value { get; }
+        public SeriesName(string value) => this.Value = value;
+    }
 }

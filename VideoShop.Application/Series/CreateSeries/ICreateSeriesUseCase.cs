@@ -1,4 +1,4 @@
-﻿namespace VideoShop.Application.Series
+﻿namespace VideoShop.Application.Series.CreateSeries
 {
     public interface ICreateSeriesUseCase
     {

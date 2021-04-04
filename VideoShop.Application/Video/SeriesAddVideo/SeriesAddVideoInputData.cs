@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VideoShop.Application.Series
+namespace VideoShop.Application.Video.SeriesAddVideo
 {
     public record SeriesAddVideoInputData(Guid SeriesId, Guid VideoId) { }
 }
