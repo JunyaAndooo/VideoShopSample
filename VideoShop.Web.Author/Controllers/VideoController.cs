@@ -59,7 +59,7 @@ namespace VideoShop.Web.Author.Controllers
                 Exam:
                     exam);
             this.resiterExamUseCase.Resister(inputData);
-            return Ok();
+            return this.Ok();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace VideoShop.Web.Author.Controllers
                 Description:
                     description);
             this.resisterDescriptionUseCase.Resister(inputData);
-            return Ok();
+            return this.Ok();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace VideoShop.Web.Audience.Controllers
             DownloadOutputData downloadOutputData = this.downloadUseCase.Download(inputData);
 
             // ファイル接続キーを渡してクライアント側でうまいことやってもらうスタイル
-            return Ok(downloadOutputData);
+            return this.Ok(downloadOutputData);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace VideoShop.Web.Audience.Controllers
         {
             // ストリーミング視聴どうやったらいいのか分からないので、省略
 
-            return Ok();
+            return this.Ok();
         }
     }
 }

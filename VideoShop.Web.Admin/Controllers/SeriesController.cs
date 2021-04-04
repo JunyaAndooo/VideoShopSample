@@ -43,7 +43,7 @@ namespace VideoShop.Web.Admin.Controllers
                 SeriesName:
                     seriesName);
             this.createSeriesUseCase.Save(inputData);
-            return Ok();
+            return this.Ok();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace VideoShop.Web.Admin.Controllers
                 VideoId:
                     VideoId);
             this.seriesAddVideoUseCase.Add(inputData);
-            return Ok();
+            return this.Ok();
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace VideoShop.Web.Admin.Controllers
                 VideoId:
                     VideoId);
             this.seriesRemoveVideoUseCase.Remove(inputData);
-            return Ok();
+            return this.Ok();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace VideoShop.Web.Admin.Controllers
                 LicensePrice:
                     LicensePrice);
             this.seriesSetLicenseUseCase.SetLicense(inputData);
-            return Ok();
+            return this.Ok();
         }
     }
 }

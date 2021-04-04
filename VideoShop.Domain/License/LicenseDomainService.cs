@@ -1,4 +1,5 @@
-﻿using VideoShop.Domain.Audience.ValueObjects;
+﻿using System;
+using VideoShop.Domain.Audience.ValueObjects;
 using VideoShop.Domain.Video.ValueObjects;
 
 namespace VideoShop.Domain.License
@@ -15,6 +16,11 @@ namespace VideoShop.Domain.License
         public bool HasLicense(AudienceId audienceId, VideoId videoId)
         {
             return (this.licenseRepository.Find(audienceId, videoId) != null);
+        }
+
+        public DateTime GetExpirationTime()
+        {
+            return DateTime.Now.AddDays(180);
         }
     }
 }

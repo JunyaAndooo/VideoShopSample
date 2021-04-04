@@ -28,6 +28,8 @@ namespace VideoShop.Application.Video.SaveVideo
                     null,
                 VideoTitle:
                     new VideoTitle(inputData.VideoTitle),
+                Exam:
+                    null,
                 FileConnectKey:
                     new FileConnectKey(fileConnectKey));
             this.videoRepository.Insert(entity);
