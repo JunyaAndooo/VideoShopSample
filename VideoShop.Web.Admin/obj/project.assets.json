@@ -79,11 +79,24 @@
       "VideoShop.Application/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "VideoShop.Domain": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/VideoShop.Application.dll": {}
         },
         "runtime": {
           "bin/placeholder/VideoShop.Application.dll": {}
+        }
+      },
+      "VideoShop.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/VideoShop.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/VideoShop.Domain.dll": {}
         }
       }
     }
@@ -200,6 +213,11 @@
       "type": "project",
       "path": "../VideoShop.Application/VideoShop.Application.csproj",
       "msbuildProject": "../VideoShop.Application/VideoShop.Application.csproj"
+    },
+    "VideoShop.Domain/1.0.0": {
+      "type": "project",
+      "path": "../VideoShop.Domain/VideoShop.Domain.csproj",
+      "msbuildProject": "../VideoShop.Domain/VideoShop.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -209,23 +227,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tanakatakuya\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\holid\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tanakatakuya\\source\\repos\\VideoShop\\VideoShop.Web.Admin\\VideoShop.Web.Admin.csproj",
+      "projectUniqueName": "C:\\base\\code\\VideoShop\\VideoShop.Web.Admin\\VideoShop.Web.Admin.csproj",
       "projectName": "VideoShop.Web.Admin",
-      "projectPath": "C:\\Users\\tanakatakuya\\source\\repos\\VideoShop\\VideoShop.Web.Admin\\VideoShop.Web.Admin.csproj",
-      "packagesPath": "C:\\Users\\tanakatakuya\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tanakatakuya\\source\\repos\\VideoShop\\VideoShop.Web.Admin\\obj\\",
+      "projectPath": "C:\\base\\code\\VideoShop\\VideoShop.Web.Admin\\VideoShop.Web.Admin.csproj",
+      "packagesPath": "C:\\Users\\holid\\.nuget\\packages\\",
+      "outputPath": "C:\\base\\code\\VideoShop\\VideoShop.Web.Admin\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\tanakatakuya\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\holid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -233,14 +252,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://www.nuget.org/api/v2/": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\tanakatakuya\\source\\repos\\VideoShop\\VideoShop.Application\\VideoShop.Application.csproj": {
-              "projectPath": "C:\\Users\\tanakatakuya\\source\\repos\\VideoShop\\VideoShop.Application\\VideoShop.Application.csproj"
+            "C:\\base\\code\\VideoShop\\VideoShop.Application\\VideoShop.Application.csproj": {
+              "projectPath": "C:\\base\\code\\VideoShop\\VideoShop.Application\\VideoShop.Application.csproj"
             }
           }
         }

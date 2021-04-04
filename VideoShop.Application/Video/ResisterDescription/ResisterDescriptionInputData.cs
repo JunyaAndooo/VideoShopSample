@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VideoShop.Domain.Series
+namespace VideoShop.Application.Video.ResisterDescription
 {
-    class SeriesDomainService
+    class ResisterDescriptionInputData
     {
     }
 }
