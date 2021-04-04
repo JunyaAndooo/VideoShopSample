@@ -9,6 +9,7 @@ namespace VideoShop.Domain.Video
         void UpdateSeriesId(VideoId videoId, SeriesId seriesId);
         void RemoveSeriesId(VideoId videoId);
         void UpdateExam(VideoId videoId, Exam exam);
+        void UpdateDescription(VideoId videoId, Description description);
         VideoEntity Find(VideoId value);
     }
 }

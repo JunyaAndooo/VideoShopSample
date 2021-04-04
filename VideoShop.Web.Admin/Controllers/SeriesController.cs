@@ -7,7 +7,9 @@ using VideoShop.Application.Video.SeriesRemoveVideo;
 
 namespace VideoShop.Web.Admin.Controllers
 {
-    public class SeriesController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class SeriesController : ControllerBase
     {
         private readonly ICreateSeriesUseCase createSeriesUseCase;
         private readonly ISeriesAddVideoUseCase seriesAddVideoUseCase;
