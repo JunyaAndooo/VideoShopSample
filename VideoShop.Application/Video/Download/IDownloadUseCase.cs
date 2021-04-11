@@ -1,7 +1,9 @@
-﻿namespace VideoShop.Application.Video.Download
+﻿using System.Threading.Tasks;
+
+namespace VideoShop.Application.Video.Download
 {
     public interface IDownloadUseCase
     {
-        DownloadOutputData Download(DownloadInputData inputData);
+        ValueTask<DownloadOutputData> Download(DownloadInputData inputData);
     }
 }

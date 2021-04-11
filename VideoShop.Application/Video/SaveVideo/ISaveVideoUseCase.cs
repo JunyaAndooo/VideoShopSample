@@ -1,7 +1,9 @@
-﻿namespace VideoShop.Application.Video.SaveVideo
+﻿using System.Threading.Tasks;
+
+namespace VideoShop.Application.Video.SaveVideo
 {
     public interface ISaveVideoUseCase
     {
-        void Save(SaveVideoInputData inputData);
+        ValueTask Save(SaveVideoInputData inputData);
     }
 }

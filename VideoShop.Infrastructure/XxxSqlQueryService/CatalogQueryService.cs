@@ -1,12 +1,19 @@
 ﻿using System;
-using VideoShop.Domain.Audience.ValueObjects;
+using System.Threading.Tasks;
+using VideoShop.Domain.DomainModels.Audience.ValueObjects;
+using VideoShop.Domain.DomainModels.Buyer.ValueObjects;
 using VideoShop.Domain.QueryModels.Catalog;
 
 namespace VideoShop.Infrastructure.XxxSqlQueryService
 {
     public class CatalogQueryService : ICatalogQueryService
     {
-        public SeriesQueryModel[] FindList(AudienceId audienceId)
+        public ValueTask<SeriesQueryModel[]> FindList(AudienceId audienceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ValueTask<SeriesQueryModel[]> FindList(BuyerId buyerId)
         {
             throw new NotImplementedException();
         }

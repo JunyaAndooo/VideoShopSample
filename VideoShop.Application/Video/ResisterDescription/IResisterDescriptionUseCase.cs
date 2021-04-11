@@ -1,7 +1,9 @@
-﻿namespace VideoShop.Application.Video.ResisterDescription
+﻿using System.Threading.Tasks;
+
+namespace VideoShop.Application.Video.ResisterDescription
 {
     public interface IResisterDescriptionUseCase
     {
-        void Resister(ResisterDescriptionInputData inputData);
+        ValueTask Resister(ResisterDescriptionInputData inputData);
     }
 }

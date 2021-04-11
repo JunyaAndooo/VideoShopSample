@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 using VideoShop.Application.Video.Download;
 
 namespace VideoShop.Web.Audience.Controllers
@@ -16,22 +17,21 @@ namespace VideoShop.Web.Audience.Controllers
         }
 
         /// <summary>
-        /// 動画をダウンロードする
+        /// 動画をダウンロードする（ファイル接続キーを渡してクライアント側でうまいことやってもらうスタイル）
         /// </summary>
         /// <param name="audienceId">視聴者ID</param>
         /// <param name="videoId">動画ID</param>
         /// <returns>結果</returns>
         [HttpGet(nameof(Download) + "/{audienceId}")]
-        public IActionResult Download([FromRoute] Guid audienceId, [FromQuery] Guid videoId)
+        public async ValueTask<ActionResult> Download([FromRoute] Guid audienceId, [FromQuery] Guid videoId)
         {
-            DownloadInputData inputData = new(
-                AudienceId:
-                    audienceId,
-                VideoId:
-                    videoId);
-            DownloadOutputData downloadOutputData = this.downloadUseCase.Download(inputData);
+            DownloadInputData inputData = new
+                (
+                    AudienceId: audienceId,
+                    VideoId: videoId
+                );
+            DownloadOutputData downloadOutputData = await this.downloadUseCase.Download(inputData);
 
-            // ファイル接続キーを渡してクライアント側でうまいことやってもらうスタイル
             return this.Ok(downloadOutputData);
         }
 
@@ -42,7 +42,7 @@ namespace VideoShop.Web.Audience.Controllers
         /// <param name="videoId">動画ID</param>
         /// <returns>結果</returns>
         [HttpGet(nameof(Streaming) + "/{audienceId}")]
-        public IActionResult Streaming([FromRoute] Guid audienceId, [FromQuery] Guid videoId)
+        public async ValueTask<ActionResult> Streaming([FromRoute] Guid audienceId, [FromQuery] Guid videoId)
         {
             // ストリーミング視聴どうやったらいいのか分からないので、省略
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using VideoShop.Application.Series.GetSeries;
+using System.Threading.Tasks;
+using VideoShop.Application.Series.GetCatalogForBuyer;
 
 namespace VideoShop.Web.Buyer.Controllers
 {
@@ -8,11 +9,11 @@ namespace VideoShop.Web.Buyer.Controllers
     [Route("[controller]")]
     public class CatalogController : ControllerBase
     {
-        private readonly IGetSeriesUseCase getSeriesUseCase;
+        private readonly IGetCatalogForBuyerUseCase getCatalogByBuyerUseCase;
 
-        public CatalogController(IGetSeriesUseCase getSeriesUseCase)
+        public CatalogController(IGetCatalogForBuyerUseCase getCatalogByBuyerUseCase)
         {
-            this.getSeriesUseCase = getSeriesUseCase;
+            this.getCatalogByBuyerUseCase = getCatalogByBuyerUseCase;
         }
 
         /// <summary>
@@ -21,12 +22,14 @@ namespace VideoShop.Web.Buyer.Controllers
         /// <param name="audienceId">視聴者ID</param>
         /// <returns>カタログ情報（シリーズのリスト）</returns>
         [HttpGet(nameof(GetSeries) + "/{audienceId}")]
-        public IActionResult GetSeries([FromRoute] Guid audienceId)
+        public async ValueTask<ActionResult> GetSeries([FromRoute] Guid buyerId)
         {
-            GetSeriesInputData inputData = new(
-                AudienceId:
-                    audienceId);
-            GetSeriesOutputData outputData = this.getSeriesUseCase.Find(inputData);
+            GetCatalogForBuyerInputData inputData = new
+                (
+                    BuyerId: buyerId
+                );
+            GetCatalogForBuyerOutputData outputData = await this.getCatalogByBuyerUseCase.Find(inputData);
+
             return this.Ok(outputData);
         }
     }

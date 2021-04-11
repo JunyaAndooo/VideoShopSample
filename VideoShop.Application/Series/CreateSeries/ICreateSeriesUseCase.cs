@@ -1,7 +1,9 @@
-﻿namespace VideoShop.Application.Series.CreateSeries
+﻿using System.Threading.Tasks;
+
+namespace VideoShop.Application.Series.CreateSeries
 {
     public interface ICreateSeriesUseCase
     {
-        void Save(CreateSeriesInputData inputData);
+        ValueTask Save(CreateSeriesInputData inputData);
     }
 }

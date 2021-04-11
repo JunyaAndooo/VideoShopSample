@@ -1,7 +1,9 @@
-﻿namespace VideoShop.Application.License.PurchaseLicense
+﻿using System.Threading.Tasks;
+
+namespace VideoShop.Application.License.PurchaseLicense
 {
     public interface IPurchaseLicenseUseCase
     {
-        void Purchase(PurchaseLicenseInputData inputData);
+        ValueTask Purchase(PurchaseLicenseInputData inputData);
     }
 }

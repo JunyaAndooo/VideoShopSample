@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 using VideoShop.Application.Video.ResisterDescription;
 using VideoShop.Application.Video.ResiterExam;
 using VideoShop.Application.Video.SaveVideo;
@@ -17,11 +18,13 @@ namespace VideoShop.Web.Author.Controllers
 
         public VideoController(
             ISaveVideoUseCase saveVideoUseCase,
-            IResiterExamUseCase resiterExamUseCase
+            IResiterExamUseCase resiterExamUseCase,
+            IResisterDescriptionUseCase resisterDescriptionUseCase
         )
         {
             this.saveVideoUseCase = saveVideoUseCase;
             this.resiterExamUseCase = resiterExamUseCase;
+            this.resisterDescriptionUseCase = resisterDescriptionUseCase;
         }
 
         /// <summary>
@@ -30,18 +33,19 @@ namespace VideoShop.Web.Author.Controllers
         /// <param name="postedFile">アップロードファイル</param>
         /// <returns>結果</returns>
         [HttpPost(nameof(SaveVideo))]
-        public IActionResult SaveVideo(IFormFile postedFile, [FromForm] string videoTitle)
+        public async ValueTask<ActionResult> SaveVideo(IFormFile postedFile, [FromForm] string videoTitle)
         {
             // この辺でアップロードファイルを一時フォルダに保存（今回はClean Architectureの学習のため省略）
             string filePath = $"tmppath/{postedFile.FileName}";
 
-            SaveVideoInputData inputData = new(
-                TmpFilePath:
-                    filePath,
-                VideoTitle:
-                    videoTitle);
-            this.saveVideoUseCase.Save(inputData);
-            return Ok();
+            SaveVideoInputData inputData = new
+                (
+                    TmpFilePath: filePath,
+                    VideoTitle: videoTitle
+                );
+            await this.saveVideoUseCase.Save(inputData);
+
+            return this.Ok();
         }
 
         /// <summary>
@@ -51,14 +55,15 @@ namespace VideoShop.Web.Author.Controllers
         /// <param name="exam">試験</param>
         /// <returns>結果</returns>
         [HttpPost(nameof(ResisterExam))]
-        public IActionResult ResisterExam([FromForm] Guid videoId, [FromForm] string exam)
+        public async ValueTask<ActionResult> ResisterExam([FromForm] Guid videoId, [FromForm] string exam)
         {
-            ResiterExamInputData inputData = new(
-                VideoId:
-                    videoId,
-                Exam:
-                    exam);
-            this.resiterExamUseCase.Resister(inputData);
+            ResiterExamInputData inputData = new
+                (
+                    VideoId: videoId,
+                    Exam: exam
+                );
+            await this.resiterExamUseCase.Resister(inputData);
+
             return this.Ok();
         }
 
@@ -69,14 +74,15 @@ namespace VideoShop.Web.Author.Controllers
         /// <param name="description">説明文</param>
         /// <returns>結果</returns>
         [HttpPost(nameof(ResisterDescription))]
-        public IActionResult ResisterDescription([FromForm] Guid videoId, [FromForm] string description)
+        public async ValueTask<ActionResult> ResisterDescription([FromForm] Guid videoId, [FromForm] string description)
         {
-            ResisterDescriptionInputData inputData = new(
-                VideoId:
-                    videoId,
-                Description:
-                    description);
-            this.resisterDescriptionUseCase.Resister(inputData);
+            ResisterDescriptionInputData inputData = new
+                (
+                    VideoId: videoId,
+                    Description: description
+                );
+            await this.resisterDescriptionUseCase.Resister(inputData);
+
             return this.Ok();
         }
     }
