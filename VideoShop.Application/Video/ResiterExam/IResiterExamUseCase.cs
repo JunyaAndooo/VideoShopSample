@@ -1,7 +1,9 @@
-﻿namespace VideoShop.Application.Video.ResiterExam
+﻿using System.Threading.Tasks;
+
+namespace VideoShop.Application.Video.ResiterExam
 {
     public interface IResiterExamUseCase
     {
-        void Resister(ResiterExamInputData inputData);
+        ValueTask Resister(ResiterExamInputData inputData);
     }
 }

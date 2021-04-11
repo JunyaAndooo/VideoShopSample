@@ -1,5 +1,6 @@
-﻿using VideoShop.Domain.Series;
-using VideoShop.Domain.Series.ValueObjects;
+﻿using System.Threading.Tasks;
+using VideoShop.Domain.DomainModels.Series;
+using VideoShop.Domain.DomainModels.Series.ValueObjects;
 
 namespace VideoShop.Application.Series.CreateSeries
 {
@@ -12,14 +13,15 @@ namespace VideoShop.Application.Series.CreateSeries
             this.seriesRepository = seriesRepository;
         }
 
-        public void Save(CreateSeriesInputData inputData)
+        public async ValueTask Save(CreateSeriesInputData inputData)
         {
-            SeriesEntity entity = new(
-                SeriesId:
-                    new SeriesId(inputData.SeriesId),
-                SeriesName:
-                    new SeriesName(inputData.SeriesName));
-            this.seriesRepository.Insert(entity);
+            SeriesEntity entity = new
+                (
+                    SeriesId: new SeriesId(inputData.SeriesId),
+                    SeriesName: new SeriesName(inputData.SeriesName),
+                    LicensePrice: null
+                );
+            await this.seriesRepository.Insert(entity);
         }
     }
 }

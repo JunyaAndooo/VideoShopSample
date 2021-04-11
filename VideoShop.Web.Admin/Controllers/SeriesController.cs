@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 using VideoShop.Application.Series.CreateSeries;
-using VideoShop.Application.Series.SeriesSetLicense;
-using VideoShop.Application.Video.SeriesAddVideo;
-using VideoShop.Application.Video.SeriesRemoveVideo;
+using VideoShop.Application.Series.SetLicense;
 
 namespace VideoShop.Web.Admin.Controllers
 {
@@ -12,21 +11,15 @@ namespace VideoShop.Web.Admin.Controllers
     public class SeriesController : ControllerBase
     {
         private readonly ICreateSeriesUseCase createSeriesUseCase;
-        private readonly ISeriesAddVideoUseCase seriesAddVideoUseCase;
-        private readonly ISeriesRemoveVideoUseCase seriesRemoveVideoUseCase;
-        private readonly ISeriesSetLicenseUseCase seriesSetLicenseUseCase;
+        private readonly ISetLicenseUseCase setLicenseUseCase;
 
         public SeriesController(
             ICreateSeriesUseCase createSeriesUseCase,
-            ISeriesAddVideoUseCase seriesAddVideoUseCase,
-            ISeriesRemoveVideoUseCase seriesRemoveVideoUseCase,
-            ISeriesSetLicenseUseCase seriesSetLicenseUseCase
+            ISetLicenseUseCase setLicenseUseCase
         )
         {
             this.createSeriesUseCase = createSeriesUseCase;
-            this.seriesAddVideoUseCase = seriesAddVideoUseCase;
-            this.seriesRemoveVideoUseCase = seriesRemoveVideoUseCase;
-            this.seriesSetLicenseUseCase = seriesSetLicenseUseCase;
+            this.setLicenseUseCase = setLicenseUseCase;
         }
 
         /// <summary>
@@ -35,50 +28,15 @@ namespace VideoShop.Web.Admin.Controllers
         /// <param name="seriesName">シリーズ名</param>
         /// <returns>結果</returns>
         [HttpPost(nameof(CreateSeries))]
-        public IActionResult CreateSeries([FromForm] string seriesName)
+        public async ValueTask<ActionResult> CreateSeries([FromForm] string seriesName)
         {
-            CreateSeriesInputData inputData = new(
-                SeriesId:
-                    Guid.NewGuid(),
-                SeriesName:
-                    seriesName);
-            this.createSeriesUseCase.Save(inputData);
-            return this.Ok();
-        }
+            CreateSeriesInputData inputData = new
+                (
+                    SeriesId: Guid.NewGuid(),
+                    SeriesName: seriesName
+                );
+            await this.createSeriesUseCase.Save(inputData);
 
-        /// <summary>
-        /// シリーズに動画を公開する
-        /// </summary>
-        /// <param name="SeriesId">シリーズID</param>
-        /// <param name="VideoId">動画ID</param>
-        /// <returns>結果</returns>
-        [HttpPost(nameof(SeriesAddVideo))]
-        public IActionResult SeriesAddVideo([FromForm] Guid SeriesId, [FromForm] Guid VideoId)
-        {
-            SeriesAddVideoInputData inputData = new(
-                SeriesId:
-                    SeriesId,
-                VideoId:
-                    VideoId);
-            this.seriesAddVideoUseCase.Add(inputData);
-            return this.Ok();
-        }
-
-        /// <summary>
-        /// シリーズから動画を削除する
-        /// </summary>
-        /// <param name="SeriesId">シリーズID</param>
-        /// <param name="VideoId">動画ID</param>
-        /// <returns>結果</returns>
-        [HttpPost(nameof(SeriesRemoveVideo))]
-        public IActionResult SeriesRemoveVideo([FromForm] Guid SeriesId, [FromForm] Guid VideoId)
-        {
-            SeriesRemoveVideoInputData inputData = new(
-                SeriesId:
-                    SeriesId,
-                VideoId:
-                    VideoId);
-            this.seriesRemoveVideoUseCase.Remove(inputData);
             return this.Ok();
         }
 
@@ -88,15 +46,16 @@ namespace VideoShop.Web.Admin.Controllers
         /// <param name="SeriesId">シリーズID</param>
         /// <param name="LicensePrice">ライセンス価格</param>
         /// <returns>結果</returns>
-        [HttpPost(nameof(SeriesSetLicense))]
-        public IActionResult SeriesSetLicense([FromForm] Guid SeriesId, [FromForm] decimal LicensePrice)
+        [HttpPost(nameof(SetLicense))]
+        public async ValueTask<ActionResult> SetLicense([FromForm] Guid seriesId, [FromForm] decimal licensePrice)
         {
-            SeriesSetLicenseInputData inputData = new(
-                SeriesId:
-                    SeriesId,
-                LicensePrice:
-                    LicensePrice);
-            this.seriesSetLicenseUseCase.SetLicense(inputData);
+            SetLicenseInputData inputData = new
+                (
+                    SeriesId: seriesId,
+                    LicensePrice: licensePrice
+                );
+            await this.setLicenseUseCase.SetLicense(inputData);
+
             return this.Ok();
         }
     }

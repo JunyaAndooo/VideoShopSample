@@ -1,17 +1,23 @@
 ﻿using System;
-using VideoShop.Domain.Series;
-using VideoShop.Domain.Series.ValueObjects;
+using System.Threading.Tasks;
+using VideoShop.Domain.DomainModels.Series;
+using VideoShop.Domain.DomainModels.Series.ValueObjects;
 
 namespace VideoShop.Infrastructure.XxxSqlRepositories
 {
     public class SeriesRepository : ISeriesRepository
     {
-        public void Insert(SeriesEntity entity)
+        public ValueTask<SeriesEntity> Find(SeriesId seriesId)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateLicensePrice(SeriesId series, LicensePrice licensePrice)
+        public ValueTask Insert(SeriesEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ValueTask Update(SeriesEntity entity)
         {
             throw new NotImplementedException();
         }

@@ -1,39 +1,32 @@
 ﻿using System;
-using VideoShop.Domain.Audience.ValueObjects;
-using VideoShop.Domain.License;
-using VideoShop.Domain.License.ValueObjects;
-using VideoShop.Domain.Series.ValueObjects;
+using System.Threading.Tasks;
+using VideoShop.Domain.DomainModels.Audience.ValueObjects;
+using VideoShop.Domain.DomainModels.License;
+using VideoShop.Domain.DomainModels.License.ValueObjects;
+using VideoShop.Domain.DomainModels.Series.ValueObjects;
 
 namespace VideoShop.Application.License.PurchaseLicense
 {
     public class PurchaseLicenseInteractor : IPurchaseLicenseUseCase
     {
         private readonly ILicenseRepository licenseRepository;
-        private readonly LicenseDomainService licenseDomainService;
 
-        public PurchaseLicenseInteractor(
-            ILicenseRepository licenseRepository,
-            LicenseDomainService licenseDomainService
-        )
+        public PurchaseLicenseInteractor(ILicenseRepository licenseRepository)
         {
             this.licenseRepository = licenseRepository;
-            this.licenseDomainService = licenseDomainService;
         }
 
-        public void Purchase(PurchaseLicenseInputData inputData)
+        public async ValueTask Purchase(PurchaseLicenseInputData inputData)
         {
-            LicenseEntity entity = new(
-                LicenseId:
-                    new LicenseId(Guid.NewGuid()),
-                SeriesId:
-                    new SeriesId(inputData.SeriesId),
-                AudienceId:
-                    new AudienceId(inputData.AudienceId),
-                LicenseType:
-                    new LicenseType(inputData.LicenseType),
-                ExpirationTime:
-                    this.licenseDomainService.GetExpirationTime());
-            this.licenseRepository.Insert(entity);
+            LicenseEntity entity = new
+                (
+                    LicenseId: new LicenseId(Guid.NewGuid()),
+                    SeriesId: new SeriesId(inputData.SeriesId),
+                    AudienceId: new AudienceId(inputData.AudienceId),
+                    LicenseType: new LicenseType(inputData.LicenseTypeEnum),
+                    ExpirationTime: LicenseDomainService.GetExpirationTime()
+                );
+            await this.licenseRepository.Insert(entity);
         }
     }
 }
