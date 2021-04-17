@@ -4,6 +4,6 @@ namespace VideoShop.Application.License.PurchaseLicense
 {
     public interface IPurchaseLicenseUseCase
     {
-        ValueTask Purchase(PurchaseLicenseInputData inputData);
+        ValueTask<PurchaseLicenseOutputData> Handle(PurchaseLicenseInputData inputData);
     }
 }

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using VideoShop.Application.License.PurchaseLicense;
-using VideoShop.Shared.Enumerations;
+using VideoShop.Domain.DomainModels.License.Enumerations;
+using VideoShop.Domain.DomainModels.License.Exceptions;
 
 namespace VideoShop.Web.Buyer.Controllers
 {
@@ -25,17 +27,24 @@ namespace VideoShop.Web.Buyer.Controllers
         /// <param name="licenseType">ライセンスタイプ</param>
         /// <returns>結果</returns>
         [HttpPost(nameof(PurchaseLicense) + "/{audienceId}")]
-        public async ValueTask<ActionResult> PurchaseLicense([FromRoute] Guid audienceId, [FromForm] Guid seriesId, [FromForm] int licenseType)
+        public async ValueTask<ActionResult> PurchaseLicense([FromRoute] Guid audienceId, [FromForm] Guid seriesId, [FromForm] LicenseType licenseType)
         {
             PurchaseLicenseInputData inputData = new
                 (
                     AudienceId: audienceId,
                     SeriesId: seriesId,
-                    LicenseTypeEnum: (LicenseTypeEnum)licenseType
+                    LicenseType: licenseType
                 );
-            await this.purchaseLicenseUseCase.Purchase(inputData);
 
-            return this.Ok();
+            try
+            {
+                await this.purchaseLicenseUseCase.Handle(inputData);
+                return this.Ok();
+            }
+            catch (LicenseRegistrationFailedException)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+            }
         }
     }
 }

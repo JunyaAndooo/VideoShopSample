@@ -1,7 +1,7 @@
 ﻿using System;
-using VideoShop.Shared.Enumerations;
+using VideoShop.Domain.DomainModels.License.Enumerations;
 
 namespace VideoShop.Application.License.PurchaseLicense
 {
-    public record PurchaseLicenseInputData(Guid AudienceId, Guid SeriesId, LicenseTypeEnum LicenseTypeEnum) { }
+    public sealed record PurchaseLicenseInputData(Guid AudienceId, Guid SeriesId, LicenseType LicenseType);
 }

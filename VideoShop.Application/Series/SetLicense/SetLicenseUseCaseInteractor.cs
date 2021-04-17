@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using VideoShop.Domain.DomainModels.Series;
+using VideoShop.Domain.DomainModels.Series.Exceptions;
 using VideoShop.Domain.DomainModels.Series.ValueObjects;
 
 namespace VideoShop.Application.Series.SetLicense
 {
-    public class SetLicenseUseCaseInteractor : ISetLicenseUseCase
+    public sealed class SetLicenseUseCaseInteractor : ISetLicenseUseCase
     {
         private readonly ISeriesRepository seriesRepository;
 
@@ -14,21 +14,25 @@ namespace VideoShop.Application.Series.SetLicense
             this.seriesRepository = seriesRepository;
         }
 
-        public async ValueTask SetLicense(SetLicenseInputData inputData)
+        public async ValueTask Handle(SetLicenseInputData inputData)
         {
             SeriesId seriesId = new(inputData.SeriesId);
             SeriesEntity entity = await this.seriesRepository.Find(seriesId);
             if (entity == null)
             {
-                throw new ArgumentNullException("シリーズID", "値が取れませんでした");
+                throw new SeriesNotFoundException();
             }
-            SeriesEntity newEntity = new
+            SeriesEntity updatedEntity = new
                 (
                     seriesId,
                     SeriesName: entity.SeriesName,
                     LicensePrice: new LicensePrice(inputData.LicensePrice)
                 );
-            await this.seriesRepository.Update(newEntity);
+            bool result = await this.seriesRepository.Update(updatedEntity);
+            if (!result)
+            {
+                throw new SeriesUpdateFailedException("LicensePrice");
+            }
         }
     }
 }

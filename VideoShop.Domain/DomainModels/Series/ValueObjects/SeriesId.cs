@@ -2,7 +2,7 @@
 
 namespace VideoShop.Domain.DomainModels.Series.ValueObjects
 {
-    public record SeriesId
+    public sealed record SeriesId
     {
         public Guid Value { get; }
         public SeriesId(Guid value)

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using VideoShop.Application.Series.CreateSeries;
 using VideoShop.Application.Series.SetLicense;
+using VideoShop.Domain.DomainModels.Series.Exceptions;
 
 namespace VideoShop.Web.Admin.Controllers
 {
@@ -32,12 +34,18 @@ namespace VideoShop.Web.Admin.Controllers
         {
             CreateSeriesInputData inputData = new
                 (
-                    SeriesId: Guid.NewGuid(),
                     SeriesName: seriesName
                 );
-            await this.createSeriesUseCase.Save(inputData);
 
-            return this.Ok();
+            try
+            {
+                CreateSeriesOutputData outputData = await this.createSeriesUseCase.Handle(inputData);
+                return this.Ok(outputData);
+            }
+            catch (SeriesRegistrationFailedException)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+            }
         }
 
         /// <summary>
@@ -46,7 +54,7 @@ namespace VideoShop.Web.Admin.Controllers
         /// <param name="SeriesId">シリーズID</param>
         /// <param name="LicensePrice">ライセンス価格</param>
         /// <returns>結果</returns>
-        [HttpPost(nameof(SetLicense))]
+        [HttpPut(nameof(SetLicense))]
         public async ValueTask<ActionResult> SetLicense([FromForm] Guid seriesId, [FromForm] decimal licensePrice)
         {
             SetLicenseInputData inputData = new
@@ -54,9 +62,20 @@ namespace VideoShop.Web.Admin.Controllers
                     SeriesId: seriesId,
                     LicensePrice: licensePrice
                 );
-            await this.setLicenseUseCase.SetLicense(inputData);
 
-            return this.Ok();
+            try
+            {
+                await this.setLicenseUseCase.Handle(inputData);
+                return this.Ok();
+            }
+            catch (SeriesNotFoundException)
+            {
+                return this.NotFound();
+            }
+            catch (SeriesUpdateFailedException)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+            }
         }
     }
 }

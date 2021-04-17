@@ -6,6 +6,9 @@ using VideoShop.Domain.DomainModels.Video.ValueObjects;
 
 namespace VideoShop.Infrastructure.XxxSqlRepositories
 {
+    /// <summary>
+    /// 今回はCleanArchitectureの勉強だから、実際のファイルアクセス処理、DBアクセス処理は省略しています
+    /// </summary>
     public class LicenseRepository : ILicenseRepository
     {
         public ValueTask<LicenseEntity> Find(AudienceId audienceId, VideoId videoId)
@@ -13,7 +16,7 @@ namespace VideoShop.Infrastructure.XxxSqlRepositories
             throw new NotImplementedException();
         }
 
-        public ValueTask Insert(LicenseEntity entity)
+        ValueTask<bool> ILicenseRepository.Insert(LicenseEntity entity)
         {
             throw new NotImplementedException();
         }

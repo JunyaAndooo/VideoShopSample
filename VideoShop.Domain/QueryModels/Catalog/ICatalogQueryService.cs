@@ -6,7 +6,7 @@ namespace VideoShop.Domain.QueryModels.Catalog
 {
     public interface ICatalogQueryService
     {
-        ValueTask<SeriesQueryModel[]> FindList(AudienceId audienceId);
+        ValueTask<SeriesQueryModel[]> FindPurchasedList(AudienceId audienceId);
         ValueTask<SeriesQueryModel[]> FindList(BuyerId buyerId);
     }
 }

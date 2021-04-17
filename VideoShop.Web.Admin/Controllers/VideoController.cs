@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using VideoShop.Application.Video.AddVideoToSeries;
 using VideoShop.Application.Video.RemoveVideoToSeries;
+using VideoShop.Domain.DomainModels.Video.Exceptions;
 
 namespace VideoShop.Web.Admin.Controllers
 {
@@ -23,12 +25,12 @@ namespace VideoShop.Web.Admin.Controllers
         }
 
         /// <summary>
-        /// シリーズに動画を公開する
+        /// シリーズに動画を公開する（シリーズに動画を追加すると解釈）
         /// </summary>
         /// <param name="SeriesId">シリーズID</param>
         /// <param name="VideoId">動画ID</param>
         /// <returns>結果</returns>
-        [HttpPost(nameof(AddVideoToSeries))]
+        [HttpPut(nameof(AddVideoToSeries))]
         public async ValueTask<ActionResult> AddVideoToSeries([FromForm] Guid SeriesId, [FromForm] Guid VideoId)
         {
             AddVideoToSeriesInputData inputData = new
@@ -36,9 +38,20 @@ namespace VideoShop.Web.Admin.Controllers
                     SeriesId: SeriesId,
                     VideoId: VideoId
                 );
-            await this.addVideoToSeriesUseCase.Add(inputData);
 
-            return this.Ok();
+            try
+            {
+                await this.addVideoToSeriesUseCase.Handle(inputData);
+                return this.Ok();
+            }
+            catch (VideoNotFoundException)
+            {
+                return this.NotFound();
+            }
+            catch (VideoUpdateFailedException)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+            }
         }
 
         /// <summary>
@@ -47,7 +60,7 @@ namespace VideoShop.Web.Admin.Controllers
         /// <param name="SeriesId">シリーズID</param>
         /// <param name="VideoId">動画ID</param>
         /// <returns>結果</returns>
-        [HttpPost(nameof(RemoveVideoToSeries))]
+        [HttpDelete(nameof(RemoveVideoToSeries))]
         public async ValueTask<ActionResult> RemoveVideoToSeries([FromForm] Guid SeriesId, [FromForm] Guid VideoId)
         {
             RemoveVideoToSeriesInputData inputData = new
@@ -55,9 +68,20 @@ namespace VideoShop.Web.Admin.Controllers
                     SeriesId: SeriesId,
                     VideoId: VideoId
                 );
-            await this.removeVideoToSeriesUseCase.Remove(inputData);
 
-            return this.Ok();
+            try
+            {
+                await this.removeVideoToSeriesUseCase.Handle(inputData);
+                return this.Ok();
+            }
+            catch (Exception e) when (e is VideoNotFoundException || e is SeriesWasNotRegisteredException)
+            {
+                return this.NotFound();
+            }
+            catch (VideoUpdateFailedException)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+            }
         }
     }
 }

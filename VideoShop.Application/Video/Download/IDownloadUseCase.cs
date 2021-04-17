@@ -4,6 +4,6 @@ namespace VideoShop.Application.Video.Download
 {
     public interface IDownloadUseCase
     {
-        ValueTask<DownloadOutputData> Download(DownloadInputData inputData);
+        ValueTask<DownloadOutputData> Handle(DownloadInputData inputData);
     }
 }

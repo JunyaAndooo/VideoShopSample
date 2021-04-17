@@ -2,5 +2,5 @@
 
 namespace VideoShop.Application.Video.ResisterDescription
 {
-    public record ResisterDescriptionInputData(Guid VideoId, string Description) { }
+    public sealed record ResisterDescriptionInputData(Guid VideoId, string Description);
 }

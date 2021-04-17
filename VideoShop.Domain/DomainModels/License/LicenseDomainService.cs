@@ -5,7 +5,7 @@ using VideoShop.Domain.DomainModels.Video.ValueObjects;
 
 namespace VideoShop.Domain.DomainModels.License
 {
-    public class LicenseDomainService
+    public sealed class LicenseDomainService
     {
         private readonly ILicenseRepository licenseRepository;
 

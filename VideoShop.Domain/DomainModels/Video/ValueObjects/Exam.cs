@@ -1,6 +1,6 @@
 ﻿namespace VideoShop.Domain.DomainModels.Video.ValueObjects
 {
-    public record Exam
+    public sealed record Exam
     {
         public string Value { get; }
         public Exam(string value)

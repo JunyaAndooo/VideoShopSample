@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using VideoShop.Application.Video.ResisterDescription;
 using VideoShop.Application.Video.ResiterExam;
 using VideoShop.Application.Video.SaveVideo;
+using VideoShop.Domain.DomainModels.Video.Exceptions;
+using VideoShop.Shared.Clients.Exceptions;
 
 namespace VideoShop.Web.Author.Controllers
 {
@@ -28,24 +31,32 @@ namespace VideoShop.Web.Author.Controllers
         }
 
         /// <summary>
-        /// MP4を登録する
+        /// MP4を登録する（動画情報を追加すると解釈）
         /// </summary>
         /// <param name="postedFile">アップロードファイル</param>
         /// <returns>結果</returns>
         [HttpPost(nameof(SaveVideo))]
         public async ValueTask<ActionResult> SaveVideo(IFormFile postedFile, [FromForm] string videoTitle)
         {
-            // この辺でアップロードファイルを一時フォルダに保存（今回はClean Architectureの学習のため省略）
-            string filePath = $"tmppath/{postedFile.FileName}";
+            using MemoryStream uploadedMemoryStream = new();
+            postedFile.CopyTo(uploadedMemoryStream);
 
             SaveVideoInputData inputData = new
                 (
-                    TmpFilePath: filePath,
+                    UploadedMemoryStream: uploadedMemoryStream,
+                    UploadedFileName: postedFile.FileName,
                     VideoTitle: videoTitle
                 );
-            await this.saveVideoUseCase.Save(inputData);
 
-            return this.Ok();
+            try
+            {
+                SaveVideoOutputData outputData = await this.saveVideoUseCase.Handle(inputData);
+                return this.Ok(outputData);
+            }
+            catch (Exception e) when (e is FileUploadFailedException || e is VideoRegistrationFailedException)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+            }
         }
 
         /// <summary>
@@ -54,7 +65,7 @@ namespace VideoShop.Web.Author.Controllers
         /// <param name="videoId">動画ID</param>
         /// <param name="exam">試験</param>
         /// <returns>結果</returns>
-        [HttpPost(nameof(ResisterExam))]
+        [HttpPut(nameof(ResisterExam))]
         public async ValueTask<ActionResult> ResisterExam([FromForm] Guid videoId, [FromForm] string exam)
         {
             ResiterExamInputData inputData = new
@@ -62,9 +73,20 @@ namespace VideoShop.Web.Author.Controllers
                     VideoId: videoId,
                     Exam: exam
                 );
-            await this.resiterExamUseCase.Resister(inputData);
 
-            return this.Ok();
+            try
+            {
+                await this.resiterExamUseCase.Handle(inputData);
+                return this.Ok();
+            }
+            catch (VideoNotFoundException)
+            {
+                return this.NotFound();
+            }
+            catch (VideoUpdateFailedException)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+            }
         }
 
         /// <summary>
@@ -73,7 +95,7 @@ namespace VideoShop.Web.Author.Controllers
         /// <param name="videoId">動画ID</param>
         /// <param name="description">説明文</param>
         /// <returns>結果</returns>
-        [HttpPost(nameof(ResisterDescription))]
+        [HttpPut(nameof(ResisterDescription))]
         public async ValueTask<ActionResult> ResisterDescription([FromForm] Guid videoId, [FromForm] string description)
         {
             ResisterDescriptionInputData inputData = new
@@ -81,9 +103,20 @@ namespace VideoShop.Web.Author.Controllers
                     VideoId: videoId,
                     Description: description
                 );
-            await this.resisterDescriptionUseCase.Resister(inputData);
 
-            return this.Ok();
+            try
+            {
+                await this.resisterDescriptionUseCase.Handle(inputData);
+                return this.Ok();
+            }
+            catch (VideoNotFoundException)
+            {
+                return this.NotFound();
+            }
+            catch (VideoUpdateFailedException)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+            }
         }
     }
 }

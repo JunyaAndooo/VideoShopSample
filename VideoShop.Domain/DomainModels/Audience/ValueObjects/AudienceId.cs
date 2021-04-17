@@ -2,7 +2,7 @@
 
 namespace VideoShop.Domain.DomainModels.Audience.ValueObjects
 {
-    public record AudienceId
+    public sealed record AudienceId
     {
         public Guid Value { get; }
         public AudienceId(Guid value)

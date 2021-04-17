@@ -6,9 +6,12 @@ using VideoShop.Domain.QueryModels.Catalog;
 
 namespace VideoShop.Infrastructure.XxxSqlQueryService
 {
+    /// <summary>
+    /// 今回はCleanArchitectureの勉強だから、実際のファイルアクセス処理、DBアクセス処理は省略しています
+    /// </summary>
     public class CatalogQueryService : ICatalogQueryService
     {
-        public ValueTask<SeriesQueryModel[]> FindList(AudienceId audienceId)
+        public ValueTask<SeriesQueryModel[]> FindPurchasedList(AudienceId audienceId)
         {
             throw new NotImplementedException();
         }

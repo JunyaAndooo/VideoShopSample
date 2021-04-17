@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using VideoShop.Domain.DomainModels.Video;
+using VideoShop.Domain.DomainModels.Video.Exceptions;
 using VideoShop.Domain.DomainModels.Video.ValueObjects;
 using VideoShop.Domain.Video.ValueObjects;
 using VideoShop.Shared.Clients;
+using VideoShop.Shared.Clients.Exceptions;
+using VideoShop.Shared.Clients.ValueObjects;
 
 namespace VideoShop.Application.Video.SaveVideo
 {
-    public class SaveVideoInteractor : ISaveVideoUseCase
+    public sealed class SaveVideoInteractor : ISaveVideoUseCase
     {
         private readonly IFileStorageClient fileStorageClient;
         private readonly IVideoRepository videoRepository;
@@ -21,19 +24,34 @@ namespace VideoShop.Application.Video.SaveVideo
             this.videoRepository = videoRepository;
         }
 
-        public async ValueTask Save(SaveVideoInputData inputData)
+        public async ValueTask<SaveVideoOutputData> Handle(SaveVideoInputData inputData)
         {
-            string fileConnectKey = await this.fileStorageClient.Save(inputData.TmpFilePath);
+            FileConnectKey fileConnectKey =
+                await this.fileStorageClient.Save(inputData.UploadedFileName, inputData.UploadedMemoryStream);
+            if (fileConnectKey == null)
+            {
+                throw new FileUploadFailedException();
+            }
             VideoEntity entity = new
                 (
                     VideoId: new VideoId(Guid.NewGuid()),
                     SeriesId: null,
                     VideoTitle: new VideoTitle(inputData.VideoTitle),
                     Exam: null,
-                    FileConnectKey: new FileConnectKey(fileConnectKey),
+                    FileConnectKey: fileConnectKey,
                     Description: null
                 );
-            await this.videoRepository.Insert(entity);
+            bool result = await this.videoRepository.Insert(entity);
+            if (!result)
+            {
+                throw new VideoRegistrationFailedException();
+            }
+            SaveVideoOutputData outputData = new
+                (
+                    VideoId: entity.VideoId.Value
+                );
+
+            return outputData;
         }
     }
 }

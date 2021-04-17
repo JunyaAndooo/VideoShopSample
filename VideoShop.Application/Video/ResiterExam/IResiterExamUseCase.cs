@@ -4,6 +4,6 @@ namespace VideoShop.Application.Video.ResiterExam
 {
     public interface IResiterExamUseCase
     {
-        ValueTask Resister(ResiterExamInputData inputData);
+        ValueTask Handle(ResiterExamInputData inputData);
     }
 }

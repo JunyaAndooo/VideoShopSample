@@ -30,9 +30,9 @@ namespace VideoShop.Web.Audience.Controllers
                     AudienceId: audienceId,
                     VideoId: videoId
                 );
-            DownloadOutputData downloadOutputData = await this.downloadUseCase.Download(inputData);
+            DownloadOutputData downloadOutputData = await this.downloadUseCase.Handle(inputData);
 
-            return this.Ok(downloadOutputData);
+            return this.File(downloadOutputData.Stream, "video/mp4", downloadOutputData.FileName);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace VideoShop.Web.Audience.Controllers
         [HttpGet(nameof(Streaming) + "/{audienceId}")]
         public async ValueTask<ActionResult> Streaming([FromRoute] Guid audienceId, [FromQuery] Guid videoId)
         {
-            // ストリーミング視聴どうやったらいいのか分からないので、省略
+            // ストリーミング視聴は今回の趣旨ではないので、省略
 
             return this.Ok();
         }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using VideoShop.Domain.DomainModels.Video;
+using VideoShop.Domain.DomainModels.Video.Exceptions;
 using VideoShop.Domain.DomainModels.Video.ValueObjects;
 
 namespace VideoShop.Application.Video.ResiterExam
 {
-    public class ResiterExamInteractor : IResiterExamUseCase
+    public sealed class ResiterExamInteractor : IResiterExamUseCase
     {
         private readonly IVideoRepository videoRepository;
 
@@ -14,15 +14,15 @@ namespace VideoShop.Application.Video.ResiterExam
             this.videoRepository = videoRepository;
         }
 
-        public async ValueTask Resister(ResiterExamInputData inputData)
+        public async ValueTask Handle(ResiterExamInputData inputData)
         {
             VideoId videoId = new(inputData.VideoId);
             VideoEntity entity = await this.videoRepository.Find(videoId);
             if (entity == null)
             {
-                throw new ArgumentNullException("動画ID", "値が取れませんでした");
+                throw new VideoNotFoundException();
             }
-            VideoEntity newEntity = new
+            VideoEntity updatedEntity = new
                 (
                     VideoId: videoId,
                     SeriesId: entity.SeriesId,
@@ -31,7 +31,11 @@ namespace VideoShop.Application.Video.ResiterExam
                     FileConnectKey: entity.FileConnectKey,
                     Description: entity.Description
                 );
-            await this.videoRepository.Update(newEntity);
+            bool result = await this.videoRepository.Update(updatedEntity);
+            if (!result)
+            {
+                throw new VideoUpdateFailedException("Exam");
+            }
         }
     }
 }

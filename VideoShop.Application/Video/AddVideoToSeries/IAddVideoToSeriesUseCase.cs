@@ -4,6 +4,6 @@ namespace VideoShop.Application.Video.AddVideoToSeries
 {
     public interface IAddVideoToSeriesUseCase
     {
-        ValueTask Add(AddVideoToSeriesInputData inputData);
+        ValueTask Handle(AddVideoToSeriesInputData inputData);
     }
 }

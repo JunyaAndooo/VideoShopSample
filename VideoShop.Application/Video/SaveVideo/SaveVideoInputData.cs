@@ -1,4 +1,6 @@
-﻿namespace VideoShop.Application.Video.SaveVideo
+﻿using System.IO;
+
+namespace VideoShop.Application.Video.SaveVideo
 {
-    public record SaveVideoInputData(string TmpFilePath, string VideoTitle) { }
+    public sealed record SaveVideoInputData(MemoryStream UploadedMemoryStream, string UploadedFileName, string VideoTitle);
 }
