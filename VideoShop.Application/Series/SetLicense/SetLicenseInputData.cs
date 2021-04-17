@@ -2,5 +2,5 @@
 
 namespace VideoShop.Application.Series.SetLicense
 {
-    public record SetLicenseInputData(Guid SeriesId, decimal LicensePrice) { }
+    public sealed record SetLicenseInputData(Guid SeriesId, decimal LicensePrice);
 }

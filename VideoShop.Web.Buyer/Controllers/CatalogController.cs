@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using VideoShop.Application.Series.GetCatalogForBuyer;
+using VideoShop.Application.Series.ListAllCatalog;
 
 namespace VideoShop.Web.Buyer.Controllers
 {
@@ -9,11 +9,11 @@ namespace VideoShop.Web.Buyer.Controllers
     [Route("[controller]")]
     public class CatalogController : ControllerBase
     {
-        private readonly IGetCatalogForBuyerUseCase getCatalogByBuyerUseCase;
+        private readonly IListAllCatalogUseCase getAllCatalogUseCase;
 
-        public CatalogController(IGetCatalogForBuyerUseCase getCatalogByBuyerUseCase)
+        public CatalogController(IListAllCatalogUseCase getAllCatalogUseCase)
         {
-            this.getCatalogByBuyerUseCase = getCatalogByBuyerUseCase;
+            this.getAllCatalogUseCase = getAllCatalogUseCase;
         }
 
         /// <summary>
@@ -24,11 +24,11 @@ namespace VideoShop.Web.Buyer.Controllers
         [HttpGet(nameof(GetSeries) + "/{audienceId}")]
         public async ValueTask<ActionResult> GetSeries([FromRoute] Guid buyerId)
         {
-            GetCatalogForBuyerInputData inputData = new
+            ListAllCatalogInputData inputData = new
                 (
                     BuyerId: buyerId
                 );
-            GetCatalogForBuyerOutputData outputData = await this.getCatalogByBuyerUseCase.Find(inputData);
+            ListAllCatalogOutputData outputData = await this.getAllCatalogUseCase.Handle(inputData);
 
             return this.Ok(outputData);
         }

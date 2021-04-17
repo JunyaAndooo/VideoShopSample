@@ -1,6 +1,6 @@
-﻿namespace VideoShop.Domain.DomainModels.Video.ValueObjects
+﻿namespace VideoShop.Shared.Clients.ValueObjects
 {
-    public record FileConnectKey
+    public sealed record FileConnectKey
     {
         public string Value { get; }
         public FileConnectKey(string value)

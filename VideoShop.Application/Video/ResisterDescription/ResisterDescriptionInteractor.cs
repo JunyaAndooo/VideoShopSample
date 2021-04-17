@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using VideoShop.Domain.DomainModels.Video;
+using VideoShop.Domain.DomainModels.Video.Exceptions;
 using VideoShop.Domain.DomainModels.Video.ValueObjects;
 
 namespace VideoShop.Application.Video.ResisterDescription
 {
-    public class ResisterDescriptionInteractor : IResisterDescriptionUseCase
+    public sealed class ResisterDescriptionInteractor : IResisterDescriptionUseCase
     {
         private readonly IVideoRepository videoRepository;
         private readonly VideoDomainService videoDomainService;
@@ -19,15 +19,15 @@ namespace VideoShop.Application.Video.ResisterDescription
             this.videoDomainService = videoDomainService;
         }
 
-        public async ValueTask Resister(ResisterDescriptionInputData inputData)
+        public async ValueTask Handle(ResisterDescriptionInputData inputData)
         {
             VideoId videoId = new(inputData.VideoId);
             VideoEntity entity = await this.videoRepository.Find(videoId);
             if (entity == null)
             {
-                throw new ArgumentNullException("動画ID", "値が取れませんでした");
+                throw new VideoNotFoundException();
             }
-            VideoEntity newEntity = new
+            VideoEntity updatedEntity = new
                 (
                     VideoId: videoId,
                     SeriesId: entity.SeriesId,
@@ -36,7 +36,11 @@ namespace VideoShop.Application.Video.ResisterDescription
                     FileConnectKey: entity.FileConnectKey,
                     Description: new Description(inputData.Description)
                 );
-            await this.videoRepository.Update(newEntity);
+            bool result = await this.videoRepository.Update(updatedEntity);
+            if (!result)
+            {
+                throw new VideoUpdateFailedException("Description");
+            }
         }
     }
 }

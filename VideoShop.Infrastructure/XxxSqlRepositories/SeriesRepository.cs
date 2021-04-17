@@ -5,6 +5,9 @@ using VideoShop.Domain.DomainModels.Series.ValueObjects;
 
 namespace VideoShop.Infrastructure.XxxSqlRepositories
 {
+    /// <summary>
+    /// 今回はCleanArchitectureの勉強だから、実際のファイルアクセス処理、DBアクセス処理は省略しています
+    /// </summary>
     public class SeriesRepository : ISeriesRepository
     {
         public ValueTask<SeriesEntity> Find(SeriesId seriesId)
@@ -12,12 +15,12 @@ namespace VideoShop.Infrastructure.XxxSqlRepositories
             throw new NotImplementedException();
         }
 
-        public ValueTask Insert(SeriesEntity entity)
+        ValueTask<bool> ISeriesRepository.Insert(SeriesEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public ValueTask Update(SeriesEntity entity)
+        ValueTask<bool> ISeriesRepository.Update(SeriesEntity entity)
         {
             throw new NotImplementedException();
         }

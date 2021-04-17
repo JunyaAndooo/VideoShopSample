@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using VideoShop.Domain.DomainModels.Series.ValueObjects;
+﻿using VideoShop.Domain.DomainModels.Series.ValueObjects;
 using VideoShop.Domain.DomainModels.Video.ValueObjects;
 using VideoShop.Domain.Video.ValueObjects;
+using VideoShop.Shared.Clients.ValueObjects;
 
 namespace VideoShop.Domain.DomainModels.Video
 {
@@ -13,17 +12,5 @@ namespace VideoShop.Domain.DomainModels.Video
         FileConnectKey FileConnectKey,
         Exam Exam,
         Description Description
-    )
-    : IEqualityComparer<VideoEntity>
-    {
-        public bool Equals(VideoEntity x, VideoEntity y)
-        {
-            return x.VideoId.Value == y.VideoId.Value;
-        }
-
-        public int GetHashCode([DisallowNull] VideoEntity obj)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+    );
 }

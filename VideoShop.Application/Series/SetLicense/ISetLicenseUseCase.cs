@@ -4,6 +4,6 @@ namespace VideoShop.Application.Series.SetLicense
 {
     public interface ISetLicenseUseCase
     {
-        ValueTask SetLicense(SetLicenseInputData inputData);
+        ValueTask Handle(SetLicenseInputData inputData);
     }
 }

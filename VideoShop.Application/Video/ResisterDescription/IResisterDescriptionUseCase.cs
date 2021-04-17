@@ -4,6 +4,6 @@ namespace VideoShop.Application.Video.ResisterDescription
 {
     public interface IResisterDescriptionUseCase
     {
-        ValueTask Resister(ResisterDescriptionInputData inputData);
+        ValueTask Handle(ResisterDescriptionInputData inputData);
     }
 }

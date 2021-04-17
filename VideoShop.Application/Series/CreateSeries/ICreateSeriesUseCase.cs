@@ -4,6 +4,6 @@ namespace VideoShop.Application.Series.CreateSeries
 {
     public interface ICreateSeriesUseCase
     {
-        ValueTask Save(CreateSeriesInputData inputData);
+        ValueTask<CreateSeriesOutputData> Handle(CreateSeriesInputData inputData);
     }
 }

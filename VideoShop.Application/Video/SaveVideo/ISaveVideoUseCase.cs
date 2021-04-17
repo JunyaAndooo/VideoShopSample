@@ -4,6 +4,6 @@ namespace VideoShop.Application.Video.SaveVideo
 {
     public interface ISaveVideoUseCase
     {
-        ValueTask Save(SaveVideoInputData inputData);
+        ValueTask<SaveVideoOutputData> Handle(SaveVideoInputData inputData);
     }
 }

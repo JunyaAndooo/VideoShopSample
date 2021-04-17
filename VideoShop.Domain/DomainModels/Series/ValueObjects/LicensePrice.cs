@@ -2,7 +2,7 @@
 
 namespace VideoShop.Domain.DomainModels.Series.ValueObjects
 {
-    public record LicensePrice
+    public sealed record LicensePrice
     {
         public decimal Value { get; }
         public LicensePrice(decimal value)

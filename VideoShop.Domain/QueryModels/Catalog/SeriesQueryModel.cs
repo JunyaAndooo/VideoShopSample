@@ -1,4 +1,4 @@
 ﻿namespace VideoShop.Domain.QueryModels.Catalog
 {
-    public record SeriesQueryModel(VideoQueryModel[] VideoQueryModels) { }
+    public sealed record SeriesQueryModel(VideoQueryModel[] VideoQueryModels);
 }

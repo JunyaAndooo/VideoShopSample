@@ -2,7 +2,7 @@
 
 namespace VideoShop.Domain.DomainModels.License.ValueObjects
 {
-    public record LicenseId
+    public sealed record LicenseId
     {
         public Guid Value { get; }
         public LicenseId(Guid value)

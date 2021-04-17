@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using VideoShop.Domain.DomainModels.Series;
+using VideoShop.Domain.DomainModels.Series.Exceptions;
 using VideoShop.Domain.DomainModels.Series.ValueObjects;
 
 namespace VideoShop.Application.Series.CreateSeries
 {
-    public class CreateSeriesInteractor : ICreateSeriesUseCase
+    public sealed class CreateSeriesInteractor : ICreateSeriesUseCase
     {
         private readonly ISeriesRepository seriesRepository;
 
@@ -13,15 +15,25 @@ namespace VideoShop.Application.Series.CreateSeries
             this.seriesRepository = seriesRepository;
         }
 
-        public async ValueTask Save(CreateSeriesInputData inputData)
+        public async ValueTask<CreateSeriesOutputData> Handle(CreateSeriesInputData inputData)
         {
             SeriesEntity entity = new
                 (
-                    SeriesId: new SeriesId(inputData.SeriesId),
+                    SeriesId: new SeriesId(Guid.NewGuid()),
                     SeriesName: new SeriesName(inputData.SeriesName),
                     LicensePrice: null
                 );
-            await this.seriesRepository.Insert(entity);
+            bool result = await this.seriesRepository.Insert(entity);
+            if (!result)
+            {
+                throw new SeriesRegistrationFailedException();
+            }
+            CreateSeriesOutputData outputData = new
+                (
+                    SeriesId: entity.SeriesId.Value
+                );
+
+            return outputData;
         }
     }
 }

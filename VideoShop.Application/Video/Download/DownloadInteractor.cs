@@ -1,39 +1,52 @@
-﻿using System;
+﻿using System.IO;
 using System.Threading.Tasks;
 using VideoShop.Domain.DomainModels.Audience.ValueObjects;
 using VideoShop.Domain.DomainModels.License;
+using VideoShop.Domain.DomainModels.License.Exceptions;
 using VideoShop.Domain.DomainModels.Video;
+using VideoShop.Domain.DomainModels.Video.Exceptions;
 using VideoShop.Domain.DomainModels.Video.ValueObjects;
+using VideoShop.Shared.Clients;
 
 namespace VideoShop.Application.Video.Download
 {
-    public class DownloadInteractor : IDownloadUseCase
+    public sealed class DownloadInteractor : IDownloadUseCase
     {
         private readonly LicenseDomainService licenseDomainService;
         private readonly IVideoRepository videoRepository;
+        private readonly IFileStorageClient fileStorageClient;
 
         public DownloadInteractor(
             LicenseDomainService licenseDomainService,
-            IVideoRepository videoRepository
+            IVideoRepository videoRepository,
+            IFileStorageClient fileStorageClient
         )
         {
             this.licenseDomainService = licenseDomainService;
             this.videoRepository = videoRepository;
+            this.fileStorageClient = fileStorageClient;
         }
 
-        public async ValueTask<DownloadOutputData> Download(DownloadInputData inputData)
+        public async ValueTask<DownloadOutputData> Handle(DownloadInputData inputData)
         {
             VideoId videoId = new(inputData.VideoId);
             AudienceId audienceId = new(inputData.AudienceId);
             bool hasLicense = await this.licenseDomainService.HasLicense(audienceId, videoId);
-            if (hasLicense)
+            if (!hasLicense)
             {
-                throw new ArgumentException("ライセンスが不正です（すでにお持ちです）");
+                throw new LicenseIsNotValidException();
             }
             VideoEntity entity = await this.videoRepository.Find(videoId);
+            if (entity == null)
+            {
+                throw new VideoNotFoundException();
+            }
+            (string fileName, Stream stream) = await this.fileStorageClient.Find(entity.FileConnectKey);
+
             DownloadOutputData outputData = new
                 (
-                    FileConnectKey: entity.FileConnectKey.Value
+                    FileName: fileName,
+                    Stream: stream
                 );
 
             return outputData;

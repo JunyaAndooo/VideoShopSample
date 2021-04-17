@@ -2,5 +2,5 @@
 
 namespace VideoShop.Application.Video.Download
 {
-    public record DownloadInputData(Guid AudienceId, Guid VideoId) { }
+    public sealed record DownloadInputData(Guid AudienceId, Guid VideoId);
 }

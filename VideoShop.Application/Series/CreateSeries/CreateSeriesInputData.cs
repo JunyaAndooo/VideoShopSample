@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VideoShop.Application.Series.CreateSeries
+﻿namespace VideoShop.Application.Series.CreateSeries
 {
-    public record CreateSeriesInputData(Guid SeriesId, string SeriesName) { }
+    public sealed record CreateSeriesInputData(string SeriesName);
 }
