@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using VideoShop.Application.License.PurchaseLicense;
 using VideoShop.Domain.DomainModels.License.Enumerations;
-using VideoShop.Domain.DomainModels.License.Exceptions;
 
 namespace VideoShop.Web.Buyer.Controllers
 {
@@ -36,15 +34,9 @@ namespace VideoShop.Web.Buyer.Controllers
                     LicenseType: licenseType
                 );
 
-            try
-            {
-                await this.purchaseLicenseUseCase.Handle(inputData);
-                return this.Ok();
-            }
-            catch (LicenseRegistrationFailedException)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
-            }
+            await this.purchaseLicenseUseCase.Handle(inputData);
+
+            return this.Ok();
         }
     }
 }

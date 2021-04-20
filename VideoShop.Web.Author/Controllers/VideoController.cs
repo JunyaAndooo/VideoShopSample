@@ -51,9 +51,10 @@ namespace VideoShop.Web.Author.Controllers
             try
             {
                 SaveVideoOutputData outputData = await this.saveVideoUseCase.Handle(inputData);
+
                 return this.Ok(outputData);
             }
-            catch (Exception e) when (e is FileUploadFailedException || e is VideoRegistrationFailedException)
+            catch (FileUploadFailedException)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
             }
@@ -77,13 +78,14 @@ namespace VideoShop.Web.Author.Controllers
             try
             {
                 await this.resiterExamUseCase.Handle(inputData);
+
                 return this.Ok();
             }
             catch (VideoNotFoundException)
             {
                 return this.NotFound();
             }
-            catch (VideoUpdateFailedException)
+            catch (VideoNotUpdatedException)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
             }
@@ -107,13 +109,14 @@ namespace VideoShop.Web.Author.Controllers
             try
             {
                 await this.resisterDescriptionUseCase.Handle(inputData);
+
                 return this.Ok();
             }
             catch (VideoNotFoundException)
             {
                 return this.NotFound();
             }
-            catch (VideoUpdateFailedException)
+            catch (VideoNotUpdatedException)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
             }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using VideoShop.Domain.DomainModels.Video;
-using VideoShop.Domain.DomainModels.Video.Exceptions;
 using VideoShop.Domain.DomainModels.Video.ValueObjects;
 using VideoShop.Domain.Video.ValueObjects;
 using VideoShop.Shared.Clients;
@@ -41,11 +40,7 @@ namespace VideoShop.Application.Video.SaveVideo
                     FileConnectKey: fileConnectKey,
                     Description: null
                 );
-            bool result = await this.videoRepository.Insert(entity);
-            if (!result)
-            {
-                throw new VideoRegistrationFailedException();
-            }
+            await this.videoRepository.Insert(entity);
             SaveVideoOutputData outputData = new
                 (
                     VideoId: entity.VideoId.Value

@@ -31,10 +31,10 @@ namespace VideoShop.Application.Video.ResiterExam
                     FileConnectKey: entity.FileConnectKey,
                     Description: entity.Description
                 );
-            bool result = await this.videoRepository.Update(updatedEntity);
-            if (!result)
+            int updatedCount = await this.videoRepository.Update(updatedEntity);
+            if (updatedCount == 0)
             {
-                throw new VideoUpdateFailedException("Exam");
+                throw new VideoNotUpdatedException();
             }
         }
     }

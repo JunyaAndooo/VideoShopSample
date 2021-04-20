@@ -42,13 +42,14 @@ namespace VideoShop.Web.Admin.Controllers
             try
             {
                 await this.addVideoToSeriesUseCase.Handle(inputData);
+
                 return this.Ok();
             }
             catch (VideoNotFoundException)
             {
                 return this.NotFound();
             }
-            catch (VideoUpdateFailedException)
+            catch (VideoNotUpdatedException)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
             }
@@ -78,7 +79,7 @@ namespace VideoShop.Web.Admin.Controllers
             {
                 return this.NotFound();
             }
-            catch (VideoUpdateFailedException)
+            catch (VideoNotUpdatedException)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
             }

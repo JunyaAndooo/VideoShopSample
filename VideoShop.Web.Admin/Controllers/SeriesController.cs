@@ -37,15 +37,10 @@ namespace VideoShop.Web.Admin.Controllers
                     SeriesName: seriesName
                 );
 
-            try
-            {
-                CreateSeriesOutputData outputData = await this.createSeriesUseCase.Handle(inputData);
-                return this.Ok(outputData);
-            }
-            catch (SeriesRegistrationFailedException)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
-            }
+            CreateSeriesOutputData outputData = await this.createSeriesUseCase.Handle(inputData);
+
+            return this.Ok(outputData);
+
         }
 
         /// <summary>
@@ -66,13 +61,14 @@ namespace VideoShop.Web.Admin.Controllers
             try
             {
                 await this.setLicenseUseCase.Handle(inputData);
+
                 return this.Ok();
             }
             catch (SeriesNotFoundException)
             {
                 return this.NotFound();
             }
-            catch (SeriesUpdateFailedException)
+            catch (SeriesNotUpdatedException)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
             }

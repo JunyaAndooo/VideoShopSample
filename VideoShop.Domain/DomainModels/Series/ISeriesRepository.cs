@@ -5,8 +5,8 @@ namespace VideoShop.Domain.DomainModels.Series
 {
     public interface ISeriesRepository
     {
-        ValueTask<bool> Insert(SeriesEntity entity);
-        ValueTask<bool> Update(SeriesEntity entity);
+        ValueTask Insert(SeriesEntity entity);
+        ValueTask<int> Update(SeriesEntity entity);
         ValueTask<SeriesEntity> Find(SeriesId seriesId);
     }
 }

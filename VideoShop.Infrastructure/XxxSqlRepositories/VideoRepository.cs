@@ -15,12 +15,12 @@ namespace VideoShop.Infrastructure.XxxSqlRepositories
             throw new NotImplementedException();
         }
 
-        public ValueTask<bool> Insert(VideoEntity entity)
+        public ValueTask Insert(VideoEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public ValueTask<bool> Update(VideoEntity entity)
+        public ValueTask<int> Update(VideoEntity entity)
         {
             throw new NotImplementedException();
         }

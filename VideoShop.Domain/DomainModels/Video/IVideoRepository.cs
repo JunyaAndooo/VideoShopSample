@@ -5,8 +5,8 @@ namespace VideoShop.Domain.DomainModels.Video
 {
     public interface IVideoRepository
     {
-        ValueTask<bool> Insert(VideoEntity entity);
-        ValueTask<bool> Update(VideoEntity entity);
+        ValueTask Insert(VideoEntity entity);
+        ValueTask<int> Update(VideoEntity entity);
         ValueTask<VideoEntity> Find(VideoId value);
     }
 }

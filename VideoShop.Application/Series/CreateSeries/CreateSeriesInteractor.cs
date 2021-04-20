@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using VideoShop.Domain.DomainModels.Series;
-using VideoShop.Domain.DomainModels.Series.Exceptions;
 using VideoShop.Domain.DomainModels.Series.ValueObjects;
 
 namespace VideoShop.Application.Series.CreateSeries
@@ -23,11 +22,7 @@ namespace VideoShop.Application.Series.CreateSeries
                     SeriesName: new SeriesName(inputData.SeriesName),
                     LicensePrice: null
                 );
-            bool result = await this.seriesRepository.Insert(entity);
-            if (!result)
-            {
-                throw new SeriesRegistrationFailedException();
-            }
+            await this.seriesRepository.Insert(entity);
             CreateSeriesOutputData outputData = new
                 (
                     SeriesId: entity.SeriesId.Value
