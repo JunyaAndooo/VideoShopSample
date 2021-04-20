@@ -7,6 +7,6 @@ namespace VideoShop.Domain.DomainModels.License
     public interface ILicenseRepository
     {
         ValueTask<LicenseEntity> Find(AudienceId audienceId, VideoId videoId);
-        ValueTask<bool> Insert(LicenseEntity entity);
+        ValueTask Insert(LicenseEntity entity);
     }
 }

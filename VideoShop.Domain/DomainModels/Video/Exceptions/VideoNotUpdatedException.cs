@@ -2,5 +2,5 @@
 
 namespace VideoShop.Domain.DomainModels.Video.Exceptions
 {
-    public sealed class VideoRegistrationFailedException : Exception { }
+    public sealed class VideoNotUpdatedException : Exception { }
 }

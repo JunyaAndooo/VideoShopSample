@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using VideoShop.Domain.DomainModels.Audience.ValueObjects;
 using VideoShop.Domain.DomainModels.License;
-using VideoShop.Domain.DomainModels.License.Exceptions;
 using VideoShop.Domain.DomainModels.License.ValueObjects;
 using VideoShop.Domain.DomainModels.Series.ValueObjects;
 
@@ -27,11 +26,7 @@ namespace VideoShop.Application.License.PurchaseLicense
                     LicenseType: inputData.LicenseType,
                     ExpirationTime: LicenseDomainService.GetExpirationTime()
                 );
-            bool result = await this.licenseRepository.Insert(entity);
-            if (!result)
-            {
-                throw new LicenseRegistrationFailedException();
-            }
+            await this.licenseRepository.Insert(entity);
             PurchaseLicenseOutputData outputData = new
                 (
                     LicenseId: entity.LicenseId.Value

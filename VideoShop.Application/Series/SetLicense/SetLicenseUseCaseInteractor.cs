@@ -28,10 +28,10 @@ namespace VideoShop.Application.Series.SetLicense
                     SeriesName: entity.SeriesName,
                     LicensePrice: new LicensePrice(inputData.LicensePrice)
                 );
-            bool result = await this.seriesRepository.Update(updatedEntity);
-            if (!result)
+            int updatedCount = await this.seriesRepository.Update(updatedEntity);
+            if (updatedCount == 0)
             {
-                throw new SeriesUpdateFailedException("LicensePrice");
+                throw new SeriesNotUpdatedException();
             }
         }
     }

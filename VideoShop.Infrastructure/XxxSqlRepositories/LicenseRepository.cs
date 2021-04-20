@@ -16,7 +16,7 @@ namespace VideoShop.Infrastructure.XxxSqlRepositories
             throw new NotImplementedException();
         }
 
-        ValueTask<bool> ILicenseRepository.Insert(LicenseEntity entity)
+        ValueTask ILicenseRepository.Insert(LicenseEntity entity)
         {
             throw new NotImplementedException();
         }

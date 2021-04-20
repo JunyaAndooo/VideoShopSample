@@ -15,12 +15,12 @@ namespace VideoShop.Infrastructure.XxxSqlRepositories
             throw new NotImplementedException();
         }
 
-        ValueTask<bool> ISeriesRepository.Insert(SeriesEntity entity)
+        ValueTask ISeriesRepository.Insert(SeriesEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        ValueTask<bool> ISeriesRepository.Update(SeriesEntity entity)
+        ValueTask<int> ISeriesRepository.Update(SeriesEntity entity)
         {
             throw new NotImplementedException();
         }

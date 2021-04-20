@@ -36,10 +36,10 @@ namespace VideoShop.Application.Video.ResisterDescription
                     FileConnectKey: entity.FileConnectKey,
                     Description: new Description(inputData.Description)
                 );
-            bool result = await this.videoRepository.Update(updatedEntity);
-            if (!result)
+            int updatedCount = await this.videoRepository.Update(updatedEntity);
+            if (updatedCount == 0)
             {
-                throw new VideoUpdateFailedException("Description");
+                throw new VideoNotUpdatedException();
             }
         }
     }
