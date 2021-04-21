@@ -1,4 +1,4 @@
 ﻿namespace VideoShop.Application.Series.ListAllCatalog
 {
-    public sealed record ListAllCatalogOutputData(SeriesOutputData[] SeriesOutputDatas);
+    public sealed record ListAllCatalogOutputData(SeriesOutputData[] SeriesList);
 }

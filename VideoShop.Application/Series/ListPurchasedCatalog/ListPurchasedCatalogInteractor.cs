@@ -16,15 +16,15 @@ namespace VideoShop.Application.Series.ListPurchasedCatalog
 
         public async ValueTask<ListPurchasedCatalogOutputData> Handle(ListPurchasedCatalogInputData inputData)
         {
-            SeriesQueryModel[] seriesQueryModels =
+            SeriesQueryModel[] seriesList =
                 await this.catalogQueryService.FindPurchasedList(new AudienceId(inputData.AudienceId));
             ListPurchasedCatalogOutputData outputData = new
                 (
-                    SeriesOutputDatas:
-                        seriesQueryModels.Select(s =>
+                    SeriesList:
+                        seriesList.Select(s =>
                             new SeriesOutputData(
                                 VideoOutputDatas:
-                                    s.VideoQueryModels.Select(v =>
+                                    s.Videos.Select(v =>
                                         new VideoOutputData(
                                             VideoId: v.VideoId.Value,
                                             SeriesId: v.SeriesId.Value,
