@@ -1,4 +1,5 @@
-﻿using VideoShop.Domain.DomainModels.Series.ValueObjects;
+﻿using VideoShop.Domain.DomainModels.Exam.ValueObjects;
+using VideoShop.Domain.DomainModels.Series.ValueObjects;
 using VideoShop.Domain.DomainModels.Video.ValueObjects;
 using VideoShop.Domain.Video.ValueObjects;
 using VideoShop.Shared.Clients.ValueObjects;
@@ -10,7 +11,7 @@ namespace VideoShop.Domain.DomainModels.Video
         SeriesId SeriesId,
         VideoTitle VideoTitle,
         FileConnectKey FileConnectKey,
-        Exam Exam,
+        ExamId ExamId,
         Description Description
     );
 }

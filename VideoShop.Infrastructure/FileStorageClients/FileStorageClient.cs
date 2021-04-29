@@ -11,7 +11,7 @@ namespace VideoShop.Infrastructure.FileStorageClients
     /// </summary>
     public class FileStorageClient : IFileStorageClient
     {
-        public ValueTask<(string fileName, Stream stream)> Find(FileConnectKey fileConnectKey)
+        public ValueTask<(string fileName, MemoryStream stream)> Find(FileConnectKey fileConnectKey)
         {
             throw new NotImplementedException();
         }

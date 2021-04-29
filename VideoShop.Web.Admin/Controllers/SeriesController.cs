@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using VideoShop.Application.Series.CreateSeries;
@@ -66,11 +65,11 @@ namespace VideoShop.Web.Admin.Controllers
             }
             catch (SeriesNotFoundException)
             {
-                return this.NotFound();
+                return this.NotFound("指定されたシリーズIDがありません");
             }
             catch (SeriesNotUpdatedException)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+                return this.NotFound("すでに指定されたシリーズが更新されていました");
             }
         }
     }

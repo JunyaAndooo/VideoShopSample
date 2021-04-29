@@ -36,12 +36,12 @@ namespace VideoShop.Application.Video.Download
             {
                 throw new LicenseIsNotValidException();
             }
-            VideoEntity entity = await this.videoRepository.Find(videoId);
-            if (entity == null)
+            VideoEntity finded = await this.videoRepository.Find(videoId);
+            if (finded == null)
             {
                 throw new VideoNotFoundException();
             }
-            (string fileName, Stream stream) = await this.fileStorageClient.Find(entity.FileConnectKey);
+            (string fileName, MemoryStream stream) = await this.fileStorageClient.Find(finded.FileConnectKey);
 
             DownloadOutputData outputData = new
                 (

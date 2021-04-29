@@ -7,6 +7,6 @@ namespace VideoShop.Shared.Clients
     public interface IFileStorageClient
     {
         public ValueTask<FileConnectKey> Save(string fileName, Stream stream);
-        public ValueTask<(string fileName, Stream stream)> Find(FileConnectKey fileConnectKey);
+        public ValueTask<(string fileName, MemoryStream stream)> Find(FileConnectKey fileConnectKey);
     }
 }

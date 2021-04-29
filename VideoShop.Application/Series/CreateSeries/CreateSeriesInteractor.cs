@@ -16,16 +16,16 @@ namespace VideoShop.Application.Series.CreateSeries
 
         public async ValueTask<CreateSeriesOutputData> Handle(CreateSeriesInputData inputData)
         {
-            SeriesEntity entity = new
+            SeriesEntity series = new
                 (
                     SeriesId: new SeriesId(Guid.NewGuid()),
                     SeriesName: new SeriesName(inputData.SeriesName),
                     LicensePrice: null
                 );
-            await this.seriesRepository.Insert(entity);
+            await this.seriesRepository.Insert(series);
             CreateSeriesOutputData outputData = new
                 (
-                    SeriesId: entity.SeriesId.Value
+                    SeriesId: series.SeriesId.Value
                 );
 
             return outputData;

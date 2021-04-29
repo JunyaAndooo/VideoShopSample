@@ -4,7 +4,6 @@ using VideoShop.Domain.DomainModels.Video;
 using VideoShop.Domain.DomainModels.Video.ValueObjects;
 using VideoShop.Domain.Video.ValueObjects;
 using VideoShop.Shared.Clients;
-using VideoShop.Shared.Clients.Exceptions;
 using VideoShop.Shared.Clients.ValueObjects;
 
 namespace VideoShop.Application.Video.SaveVideo
@@ -27,23 +26,19 @@ namespace VideoShop.Application.Video.SaveVideo
         {
             FileConnectKey fileConnectKey =
                 await this.fileStorageClient.Save(inputData.UploadedFileName, inputData.UploadedMemoryStream);
-            if (fileConnectKey == null)
-            {
-                throw new FileUploadFailedException();
-            }
-            VideoEntity entity = new
+            VideoEntity video = new
                 (
                     VideoId: new VideoId(Guid.NewGuid()),
                     SeriesId: null,
                     VideoTitle: new VideoTitle(inputData.VideoTitle),
-                    Exam: null,
+                    ExamId: null,
                     FileConnectKey: fileConnectKey,
                     Description: null
                 );
-            await this.videoRepository.Insert(entity);
+            await this.videoRepository.Insert(video);
             SaveVideoOutputData outputData = new
                 (
-                    VideoId: entity.VideoId.Value
+                    VideoId: video.VideoId.Value
                 );
 
             return outputData;

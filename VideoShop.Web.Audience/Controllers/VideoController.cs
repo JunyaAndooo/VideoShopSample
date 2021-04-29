@@ -2,6 +2,8 @@
 using System;
 using System.Threading.Tasks;
 using VideoShop.Application.Video.Download;
+using VideoShop.Domain.DomainModels.License.Exceptions;
+using VideoShop.Domain.DomainModels.Video.Exceptions;
 
 namespace VideoShop.Web.Audience.Controllers
 {
@@ -30,9 +32,22 @@ namespace VideoShop.Web.Audience.Controllers
                     AudienceId: audienceId,
                     VideoId: videoId
                 );
-            DownloadOutputData downloadOutputData = await this.downloadUseCase.Handle(inputData);
 
-            return this.File(downloadOutputData.Stream, "video/mp4", downloadOutputData.FileName);
+            try
+            {
+                DownloadOutputData downloadOutputData = await this.downloadUseCase.Handle(inputData);
+
+                return this.File(downloadOutputData.Stream, "video/mp4", downloadOutputData.FileName);
+            }
+            catch (LicenseIsNotValidException)
+            {
+                return this.NotFound("ライセンスが無効でした");
+            }
+            catch (VideoNotFoundException)
+            {
+                return this.NotFound("ライセンスが無効でした");
+            }
+
         }
 
         /// <summary>

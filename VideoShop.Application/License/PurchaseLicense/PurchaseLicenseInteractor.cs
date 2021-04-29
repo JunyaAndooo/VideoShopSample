@@ -18,7 +18,11 @@ namespace VideoShop.Application.License.PurchaseLicense
 
         public async ValueTask<PurchaseLicenseOutputData> Handle(PurchaseLicenseInputData inputData)
         {
-            LicenseEntity entity = new
+            /*
+             * ライセンスをユーザの購入処理するロジックをここで行うが、今回省略
+             */
+
+            LicenseEntity license = new
                 (
                     LicenseId: new LicenseId(Guid.NewGuid()),
                     SeriesId: new SeriesId(inputData.SeriesId),
@@ -26,10 +30,12 @@ namespace VideoShop.Application.License.PurchaseLicense
                     LicenseType: inputData.LicenseType,
                     ExpirationTime: LicenseDomainService.GetExpirationTime()
                 );
-            await this.licenseRepository.Insert(entity);
+
+            await this.licenseRepository.Insert(license);
+
             PurchaseLicenseOutputData outputData = new
                 (
-                    LicenseId: entity.LicenseId.Value
+                    LicenseId: license.LicenseId.Value
                 );
 
             return outputData;

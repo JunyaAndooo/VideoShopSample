@@ -17,7 +17,7 @@ namespace VideoShop.Web.Audience.Controllers
         }
 
         /// <summary>
-        /// 視聴者としてカタログを閲覧する（購入済みのカタログを取得すると解釈）
+        /// 視聴者としてカタログを閲覧する（購入済みのカタログを取得する）
         /// </summary>
         /// <param name="audienceId">視聴者ID</param>
         /// <returns>カタログ情報（シリーズのリスト）</returns>
