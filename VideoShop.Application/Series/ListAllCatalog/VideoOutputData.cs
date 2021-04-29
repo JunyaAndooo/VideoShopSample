@@ -6,7 +6,7 @@ namespace VideoShop.Application.Series.ListAllCatalog
         Guid VideoId,
         Guid SeriesId,
         string VideoTitle,
-        string Exam,
+        Guid ExamId,
         string Description
     );
 }

@@ -7,7 +7,6 @@ using VideoShop.Application.Video.ResisterDescription;
 using VideoShop.Application.Video.ResiterExam;
 using VideoShop.Application.Video.SaveVideo;
 using VideoShop.Domain.DomainModels.Video.Exceptions;
-using VideoShop.Shared.Clients.Exceptions;
 
 namespace VideoShop.Web.Author.Controllers
 {
@@ -31,12 +30,12 @@ namespace VideoShop.Web.Author.Controllers
         }
 
         /// <summary>
-        /// MP4を登録する（動画情報を追加すると解釈）
+        /// MP4を登録する（動画情報を新規追加する）
         /// </summary>
         /// <param name="postedFile">アップロードファイル</param>
         /// <returns>結果</returns>
-        [HttpPost(nameof(SaveVideo))]
-        public async ValueTask<ActionResult> SaveVideo(IFormFile postedFile, [FromForm] string videoTitle)
+        [HttpPost(nameof(UploadVideo))]
+        public async ValueTask<ActionResult> UploadVideo(IFormFile postedFile, [FromForm] string videoTitle)
         {
             using MemoryStream uploadedMemoryStream = new();
             postedFile.CopyTo(uploadedMemoryStream);
@@ -48,31 +47,27 @@ namespace VideoShop.Web.Author.Controllers
                     VideoTitle: videoTitle
                 );
 
-            try
-            {
-                SaveVideoOutputData outputData = await this.saveVideoUseCase.Handle(inputData);
+            SaveVideoOutputData outputData = await this.saveVideoUseCase.Handle(inputData);
 
-                return this.Ok(outputData);
-            }
-            catch (FileUploadFailedException)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
-            }
+            return this.Ok(outputData);
+
         }
 
         /// <summary>
-        /// 試験を登録する（動画情報に試験テキストを追加すると解釈）
+        /// 試験を登録する（動画情報に試験テキストを追加する）
         /// </summary>
         /// <param name="videoId">動画ID</param>
-        /// <param name="exam">試験</param>
+        /// <param name="question">問題</param>
+        /// <param name="answer">答え</param>
         /// <returns>結果</returns>
         [HttpPut(nameof(ResisterExam))]
-        public async ValueTask<ActionResult> ResisterExam([FromForm] Guid videoId, [FromForm] string exam)
+        public async ValueTask<ActionResult> ResisterExam([FromForm] Guid videoId, [FromForm] string question, [FromForm] string answer)
         {
             ResiterExamInputData inputData = new
                 (
                     VideoId: videoId,
-                    Exam: exam
+                    Question: question,
+                    Answer: answer
                 );
 
             try
@@ -83,11 +78,11 @@ namespace VideoShop.Web.Author.Controllers
             }
             catch (VideoNotFoundException)
             {
-                return this.NotFound();
+                return this.NotFound("ビデオ情報が見つかりませんでした");
             }
             catch (VideoNotUpdatedException)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+                return this.NotFound("すでに更新されていました");
             }
         }
 
@@ -114,11 +109,11 @@ namespace VideoShop.Web.Author.Controllers
             }
             catch (VideoNotFoundException)
             {
-                return this.NotFound();
+                return this.NotFound("ビデオ情報が見つかりませんでした");
             }
             catch (VideoNotUpdatedException)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+                return this.NotFound("すでに更新されていました");
             }
         }
     }

@@ -2,5 +2,5 @@
 
 namespace VideoShop.Application.Video.ResiterExam
 {
-    public sealed record ResiterExamInputData(Guid VideoId, string Exam);
+    public sealed record ResiterExamInputData(Guid VideoId, string Question, string Answer);
 }

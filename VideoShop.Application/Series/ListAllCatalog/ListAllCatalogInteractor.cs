@@ -29,7 +29,7 @@ namespace VideoShop.Application.Series.ListAllCatalog
                                             VideoId: v.VideoId.Value,
                                             SeriesId: v.SeriesId.Value,
                                             VideoTitle: v.VideoTitle.Value,
-                                            Exam: v.Exam.Value,
+                                            ExamId: v.ExamId.Value,
                                             Description: v.Description.Value
                                         )
                                     ).ToArray()

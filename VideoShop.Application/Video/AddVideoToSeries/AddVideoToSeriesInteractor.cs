@@ -18,21 +18,21 @@ namespace VideoShop.Application.Video.AddVideoToSeries
         public async ValueTask Handle(AddVideoToSeriesInputData inputData)
         {
             VideoId videoId = new(inputData.VideoId);
-            VideoEntity entity = await this.videoRepository.Find(videoId);
-            if (entity == null)
+            VideoEntity finded = await this.videoRepository.Find(videoId);
+            if (finded == null)
             {
                 throw new VideoNotFoundException();
             }
-            VideoEntity updatedEntity = new
+            VideoEntity video = new
                 (
                     VideoId: videoId,
                     SeriesId: new SeriesId(inputData.SeriesId),
-                    VideoTitle: entity.VideoTitle,
-                    Exam: entity.Exam,
-                    FileConnectKey: entity.FileConnectKey,
-                    Description: entity.Description
+                    VideoTitle: finded.VideoTitle,
+                    ExamId: finded.ExamId,
+                    FileConnectKey: finded.FileConnectKey,
+                    Description: finded.Description
                 );
-            int updatedCount = await this.videoRepository.Update(updatedEntity);
+            int updatedCount = await this.videoRepository.Update(video);
             if (updatedCount == 0)
             {
                 throw new VideoNotUpdatedException();

@@ -9,11 +9,11 @@ namespace VideoShop.Web.Buyer.Controllers
     [Route("[controller]")]
     public class CatalogController : ControllerBase
     {
-        private readonly IListAllCatalogUseCase getAllCatalogUseCase;
+        private readonly IListAllCatalogUseCase listAllCatalogUseCase;
 
-        public CatalogController(IListAllCatalogUseCase getAllCatalogUseCase)
+        public CatalogController(IListAllCatalogUseCase listAllCatalogUseCase)
         {
-            this.getAllCatalogUseCase = getAllCatalogUseCase;
+            this.listAllCatalogUseCase = listAllCatalogUseCase;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace VideoShop.Web.Buyer.Controllers
                 (
                     BuyerId: buyerId
                 );
-            ListAllCatalogOutputData outputData = await this.getAllCatalogUseCase.Handle(inputData);
+            ListAllCatalogOutputData outputData = await this.listAllCatalogUseCase.Handle(inputData);
 
             return this.Ok(outputData);
         }

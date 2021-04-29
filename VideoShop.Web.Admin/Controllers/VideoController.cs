@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using VideoShop.Application.Video.AddVideoToSeries;
@@ -47,11 +46,11 @@ namespace VideoShop.Web.Admin.Controllers
             }
             catch (VideoNotFoundException)
             {
-                return this.NotFound();
+                return this.NotFound("ビデオ情報が見つかりませんでした");
             }
             catch (VideoNotUpdatedException)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+                return this.NotFound("すでに更新されていました");
             }
         }
 
@@ -77,11 +76,11 @@ namespace VideoShop.Web.Admin.Controllers
             }
             catch (Exception e) when (e is VideoNotFoundException || e is SeriesWasNotRegisteredException)
             {
-                return this.NotFound();
+                return this.NotFound("ビデオ情報が見つかりませんでした");
             }
             catch (VideoNotUpdatedException)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "予期しないエラーが発生しました");
+                return this.NotFound("すでに削除されていました");
             }
         }
     }

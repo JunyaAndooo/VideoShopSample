@@ -17,18 +17,18 @@ namespace VideoShop.Application.Series.SetLicense
         public async ValueTask Handle(SetLicenseInputData inputData)
         {
             SeriesId seriesId = new(inputData.SeriesId);
-            SeriesEntity entity = await this.seriesRepository.Find(seriesId);
-            if (entity == null)
+            SeriesEntity finded = await this.seriesRepository.Find(seriesId);
+            if (finded == null)
             {
                 throw new SeriesNotFoundException();
             }
-            SeriesEntity updatedEntity = new
+            SeriesEntity series = new
                 (
-                    seriesId,
-                    SeriesName: entity.SeriesName,
+                    SeriesId: seriesId,
+                    SeriesName: finded.SeriesName,
                     LicensePrice: new LicensePrice(inputData.LicensePrice)
                 );
-            int updatedCount = await this.seriesRepository.Update(updatedEntity);
+            int updatedCount = await this.seriesRepository.Update(series);
             if (updatedCount == 0)
             {
                 throw new SeriesNotUpdatedException();

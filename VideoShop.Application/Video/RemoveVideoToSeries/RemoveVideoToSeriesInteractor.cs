@@ -23,8 +23,8 @@ namespace VideoShop.Application.Video.RemoveVideoToSeries
         public async ValueTask Handle(RemoveVideoToSeriesInputData inputData)
         {
             VideoId videoId = new(inputData.VideoId);
-            VideoEntity entity = await this.videoRepository.Find(videoId);
-            if (entity == null)
+            VideoEntity finded = await this.videoRepository.Find(videoId);
+            if (finded == null)
             {
                 throw new VideoNotFoundException();
             }
@@ -33,16 +33,16 @@ namespace VideoShop.Application.Video.RemoveVideoToSeries
             {
                 throw new SeriesWasNotRegisteredException();
             }
-            VideoEntity updatedEntity = new
+            VideoEntity video = new
             (
                 VideoId: videoId,
                 SeriesId: null,
-                VideoTitle: entity.VideoTitle,
-                Exam: entity.Exam,
-                FileConnectKey: entity.FileConnectKey,
-                Description: entity.Description
+                VideoTitle: finded.VideoTitle,
+                ExamId: finded.ExamId,
+                FileConnectKey: finded.FileConnectKey,
+                Description: finded.Description
             );
-            int updatedCount = await this.videoRepository.Update(updatedEntity);
+            int updatedCount = await this.videoRepository.Update(video);
             if (updatedCount == 0)
             {
                 throw new VideoNotUpdatedException();
